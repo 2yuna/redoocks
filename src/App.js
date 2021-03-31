@@ -1,29 +1,11 @@
 import React, { useState, useReducer } from "react";
-import { v4 as uuid } from "uuid";
-
-const initialState = {
-  toDos: [],
-};
-
-const ADD = "add";
-const DELETE = "delete";
-const reducer = (state, action) => {
-  switch (action.type) {
-    case ADD:
-      /**
-       * anti mutaion
-       * 배열을 변경하는 것이 아닌, 새롭게 대체하는 것.
-       * 기존 배열에 추가 및 삭제하는 것은 지양해야함
-       */
-      return { toDos: [...state.toDos, { text: action.payload, id: uuid() }] };
-    case DELETE:
-      return {
-        toDos: state.toDos.filter((toDo) => toDo.id !== action.payload),
-      };
-    default:
-      return;
-  }
-};
+import reducer, {
+  ADD,
+  DELETE,
+  COMPLETE,
+  initialState,
+  UNCOMPLETE,
+} from "./reducer";
 
 function App() {
   const [state, dispatch] = useReducer(reducer, initialState);
@@ -63,8 +45,37 @@ function App() {
             >
               ❌
             </button>
+            <button
+              onClick={() => dispatch({ type: COMPLETE, payload: toDo.id })}
+            >
+              ✅
+            </button>
           </li>
         ))}
+      </ul>
+      <ul>
+        {state.completed.length !== 0 && (
+          <>
+            <h2>Completed</h2>
+            {state.completed.map((toDo) => (
+              <li key={toDo.id}>
+                <span>{toDo.text}</span>
+                <button
+                  onClick={() => dispatch({ type: DELETE, payload: toDo.id })}
+                >
+                  ❌
+                </button>
+                <button
+                  onClick={() =>
+                    dispatch({ type: UNCOMPLETE, payload: toDo.id })
+                  }
+                >
+                  🟩
+                </button>
+              </li>
+            ))}
+          </>
+        )}
       </ul>
     </>
   );
