@@ -1,9 +1,9 @@
 import React from "react";
 import Header from "./Header";
 
-const Screen = ({ user }) => (
+const Screen = () => (
   <div>
-    <Header user={user} />
+    <Header />
     <h1>First Screen</h1>
   </div>
 );
