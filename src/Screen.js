@@ -7,7 +7,8 @@ export default () => {
   return (
     <>
       <h1>{t("Hello!")}</h1>
-      <button onClick={() => setLang("es")}>{t("Translate")}</button>
+      <div>{t("Did you have Lunch?")}</div>
+      <button onClick={() => setLang("ko")}>{t("Translate")}</button>
     </>
   );
 };
