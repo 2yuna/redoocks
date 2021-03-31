@@ -1,8 +1,8 @@
 //Context 규칙 생성
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 
 //Context는 어플리케이션의 데이터 저장소 역할을 한다.
-export const UserContext = React.createContext();
+const UserContext = React.createContext();
 
 const UserContextProvider = ({ children }) => {
   const [user, setUser] = useState({
@@ -14,10 +14,20 @@ const UserContextProvider = ({ children }) => {
   const logUserIn = () => setUser({ ...user, loggedIn: true });
   return (
     //이 Provider의 모든 children은 user에 대한 접근권한이 생김
-    <UserContext.Provider value={{ user, logUserIn }}>
+    <UserContext.Provider value={{ user, fn: { logUserIn } }}>
       {children}
     </UserContext.Provider>
   );
+};
+
+export const useUser = () => {
+  const { user } = useContext(UserContext);
+  return user;
+};
+
+export const useFns = () => {
+  const { fn } = useContext(UserContext);
+  return fn;
 };
 
 export default UserContextProvider;
