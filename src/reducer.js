@@ -1,14 +1,10 @@
 import { v4 as uuid } from "uuid";
+import { ADD, COMPLETE, DELETE, UNCOMPLETE } from "./actions";
 
 export const initialState = {
   toDos: [],
   completed: [],
 };
-
-export const ADD = "add";
-export const DELETE = "delete";
-export const COMPLETE = "complete";
-export const UNCOMPLETE = "uncomplete";
 
 const reducer = (state, action) => {
   switch (action.type) {
@@ -28,15 +24,17 @@ const reducer = (state, action) => {
         toDos: state.toDos.filter((toDo) => toDo.id !== action.payload),
       };
     case COMPLETE:
+      console.log("COM");
       const completedItem = state.toDos.find(
         (toDo) => toDo.id === action.payload
       );
       return {
         ...state,
         toDos: state.toDos.filter((toDo) => toDo.id !== action.payload),
-        completed: [...state.completed, completedItem],
+        completed: [...state.completed, { ...completedItem }],
       };
     case UNCOMPLETE:
+      console.log("UNCOM");
       const uncompletedItem = state.completed.find(
         (toDo) => toDo.id === action.payload
       );
